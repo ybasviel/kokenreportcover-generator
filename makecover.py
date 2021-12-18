@@ -6,7 +6,7 @@ from PIL import ImageFont
 import getopt, sys
 from unicodedata import east_asian_width
 
-def get_east_asian_width(text):
+def get_east_asian_width(text):     #文字数を英数字1, 日本語2文字でカウント
     count = 0
     for c in text:
         if east_asian_width(c) in 'FWA':
@@ -16,7 +16,7 @@ def get_east_asian_width(text):
     return count
 
 
-def split_text(length, content):
+def split_text(length, content):    #文字列を指定の文字数で分割する
     splited_text = []
 
     t = 0
@@ -32,7 +32,7 @@ def split_text(length, content):
 
     return splited_text
 
-def futidori(font_color, edge_color, content, font, draw, position ):
+def futidori(font_color, edge_color, content, font, draw, position ):   #フチつきで文字を書くらしい
     w, h = draw.textsize(content, font)
     stroke_width = int(font_size*0.1)
     draw.multiline_text(position, content, font=font, fill=font_color, stroke_width=stroke_width, stroke_fill=edge_color)
@@ -40,7 +40,7 @@ def futidori(font_color, edge_color, content, font, draw, position ):
 
 def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, font_color, edge_color):
 
-    image = Image.open(src)
+    image = Image.open(src)     #なんかファイル開く
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype(font_path,font_size)
 
@@ -49,7 +49,7 @@ def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, 
     x = int(x*rx)
     y = int(y*ry)
 
-    content_index = len(content_list)
+    content_index = len(content_list)   #目次数
 
     for content in content_list:
         content = str(content_index) + ". " + content
@@ -162,7 +162,7 @@ if __name__ == '__main__':
         pass
 
 
-    while ( "" in content_list ):
+    while ( "" in content_list ):   #空文字列があったら削除
         content_list.remove("") 
 
     content_list.reverse()
