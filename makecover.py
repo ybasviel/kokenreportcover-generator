@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from argparse import ArgumentParser, FileType
+from argparse import ArgumentParser, FileType, ArgumentDefaultsHelpFormatter
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -85,7 +85,7 @@ def str_to_rgb(rgb_str):
 
 if __name__ == '__main__':
 
-    parser = ArgumentParser()
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument("-o", "--output", type=Path, required=True, help="出力ファイル指定")
     parser.add_argument("-i", "--input", type=Path, required=True, help="入力ファイル指定")
     parser.add_argument("-x", type=float, default=0.1, help="開始位置指定 (横幅に対する比率)")

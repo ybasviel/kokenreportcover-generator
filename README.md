@@ -22,16 +22,16 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-                        出力ファイル指定
+                        出力ファイル指定 (default: None)
   -i INPUT, --input INPUT
-                        入力ファイル指定
-  -x X                  開始位置指定 (横幅に対する比率)
-  -y Y                  終了位置指定 (縦幅に対する比率)
-  -m M                  改行位置指定 (英数1文字幅)
-  -s FONT_SIZE          フォントサイズ指定
-  -f FONT, --font FONT  フォントパス指定
+                        入力ファイル指定 (default: None)
+  -x X                  開始位置指定 (横幅に対する比率) (default: 0.1)
+  -y Y                  終了位置指定 (縦幅に対する比率) (default: 0.9)
+  -m M                  改行位置指定 (英数1文字幅) (default: 20)
+  -s FONT_SIZE          フォントサイズ指定 (default: 100)
+  -f FONT, --font FONT  フォントパス指定 (default: None)
   --fontcolor FONT_COLOR
-                        フォント色RGB指定
+                        フォント色RGB指定 (default: (255, 255, 255))
   --edgecolor EDGE_COLOR
-                        縁取りの色RGB指定
+                        縁取りの色RGB指定 (default: (0, 0, 0))
 ```
