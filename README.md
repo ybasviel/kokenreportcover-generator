@@ -14,13 +14,24 @@
 
 ## ./makecover.py --help
 ```
--o --output=            :出力ファイル指定
--i --input=             :入力ファイル指定
--x float                :x開始位置指定 (横幅に対する比率)         default > 0.1
--y float                :y終了位置指定 (縦幅に対する比率)         default > 0.9
--m int                  :改行位置指定 (英数1文字幅)              default > 20
--s int                  :フォントサイズ指定                     default > 100
--f --font=              :フォントパス指定
---fontcolor=int,int,int :フォント色RGB指定                      default > 255,255,255
---edgecolor=int,int,int :縁取りの色RGB指定                      default > 0,0,0
+usage: makecover.py [-h] -o OUTPUT -i INPUT [-x X] [-y Y] [-m M] [-s FONT_SIZE] -f FONT [--fontcolor FONT_COLOR] [--edgecolor EDGE_COLOR] [index]
+
+positional arguments:
+  index
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o OUTPUT, --output OUTPUT
+                        出力ファイル指定 (default: None)
+  -i INPUT, --input INPUT
+                        入力ファイル指定 (default: None)
+  -x X                  開始位置指定 (横幅に対する比率) (default: 0.1)
+  -y Y                  終了位置指定 (縦幅に対する比率) (default: 0.9)
+  -m M                  改行位置指定 (英数1文字幅) (default: 20)
+  -s FONT_SIZE          フォントサイズ指定 (default: 100)
+  -f FONT, --font FONT  フォントパス指定 (default: None)
+  --fontcolor FONT_COLOR
+                        フォント色RGB指定 (default: (255, 255, 255))
+  --edgecolor EDGE_COLOR
+                        縁取りの色RGB指定 (default: (0, 0, 0))
 ```
