@@ -7,6 +7,8 @@ from PIL import ImageFont
 from pathlib import Path
 import sys
 from unicodedata import east_asian_width
+import img2pdf
+from os import remove
 
 def get_east_asian_width(text):     #文字数を英数字1, 日本語2文字でカウント
     count = 0
@@ -117,5 +119,17 @@ if __name__ == '__main__':
 
     content_list.reverse()
 
-    textincover(args.input, args.output, content_list, args.s, args.font, maxline, args.x, args.y, args.fontcolor, args.edgecolor)
+    if str(args.output.suffix) == ".pdf":
+        output = Path(str(args.output.stem) + ".png")
+    elif str(args.output.suffix) == ".png":
+        output = args.output
+    else:
+        print("その出力形式には対応していません(対応形式: png, pdf)")
+        exit()
+    
+    textincover(args.input, output, content_list, args.s, args.font, maxline, args.x, args.y, args.fontcolor, args.edgecolor)
 
+    if str(args.output.suffix) == ".pdf":
+        with open(str(output.stem) + ".pdf","wb") as f:
+            f.write(img2pdf.convert([str(output)]))
+        remove(output)
