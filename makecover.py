@@ -56,7 +56,7 @@ def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, 
 
     buho_index = str(buho_n) + "号"
 
-    futidori(edge_color, edge_color, buho_index, font, font_size, draw, (x,y) )
+    draw.text((x,y), buho_index, edge_color, font=font)
 
     draw.rectangle((x-font_size*0.3, y+font_size*0.1, x+0.9*font_size*get_east_asian_width(buho_index), y+font_size*2.2), None, edge_color, int(font_size*0.2))
 
