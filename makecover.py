@@ -1,6 +1,7 @@
 #!/bin/python3
 
 from argparse import ArgumentParser, FileType, ArgumentDefaultsHelpFormatter
+from turtle import width
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -42,12 +43,25 @@ def futidori(font_color, edge_color, content, font, font_size, draw, position ):
     draw.multiline_text(position, content, font=font, fill=font_color, stroke_width=stroke_width, stroke_fill=edge_color)
 
 
-def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, font_color, edge_color):
+def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, font_color, edge_color, buho_n):
 
     image = Image.open(src)     #なんかファイル開く
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype(str(font_path),font_size)
+    font = ImageFont.truetype(str(font_path),int(font_size*1.5))
 
+    x, y = image.size
+
+    x = int(x*0.75)
+    y = int(y*0.08)
+
+    buho_index = str(buho_n) + "号"
+
+    futidori(edge_color, edge_color, buho_index, font, font_size, draw, (x,y) )
+
+    draw.rectangle((x-font_size*0.3, y+font_size*0.1, x+0.9*font_size*get_east_asian_width(buho_index), y+font_size*2.2), None, edge_color, int(font_size*0.2))
+
+
+    font = ImageFont.truetype(str(font_path),font_size)
     x, y = image.size
 
     x = int(x*rx)
@@ -103,6 +117,11 @@ if __name__ == '__main__':
 
     maxline = args.m + 4
     content_list = []
+    buho_n = 0
+
+    print("部報の号数を入力")
+    buho_n = int(input(" > "))
+
     if args.index.isatty():  # interactive keyboard input
         print("目次を入力（ctrl-dで終了）")
         try:
@@ -127,7 +146,7 @@ if __name__ == '__main__':
         print("その出力形式には対応していません(対応形式: png, pdf)")
         exit()
     
-    textincover(args.input, output, content_list, args.s, args.font, maxline, args.x, args.y, args.fontcolor, args.edgecolor)
+    textincover(args.input, output, content_list, args.s, args.font, maxline, args.x, args.y, args.fontcolor, args.edgecolor, buho_n)
 
     if str(args.output.suffix) == ".pdf":
         with open(str(output.stem) + ".pdf","wb") as f:
