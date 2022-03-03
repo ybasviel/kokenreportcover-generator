@@ -51,14 +51,14 @@ def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, 
 
     x, y = image.size
 
-    x = int(x*0.75)
-    y = int(y*0.08)
+    x = int(x*0.95)
+    y = int(y*0.05)
 
-    buho_index = str(buho_n) + "号"
+    buho_index = str(buho_n)
 
-    draw.text((x,y), buho_index, edge_color, font=font)
+    draw.text((x-0.9*font_size*get_east_asian_width(buho_index),y), buho_index, edge_color, font=font)
 
-    draw.rectangle((x-font_size*0.3, y+font_size*0.1, x+0.9*font_size*get_east_asian_width(buho_index), y+font_size*2.2), None, edge_color, int(font_size*0.2))
+    draw.rectangle((x-font_size*get_east_asian_width(buho_index), y+font_size*0.1, x, y+font_size*2.2), None, edge_color, int(font_size*0.2))
 
 
     font = ImageFont.truetype(str(font_path),font_size)
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     buho_n = 0
 
     print("部報の号数を入力")
-    buho_n = int(input(" > "))
+    buho_n = str(input(" > "))
 
     if args.index.isatty():  # interactive keyboard input
         print("目次を入力（ctrl-dで終了）")
