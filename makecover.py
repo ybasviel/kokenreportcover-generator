@@ -43,22 +43,24 @@ def futidori(font_color, edge_color, content, font, font_size, draw, position ):
     draw.multiline_text(position, content, font=font, fill=font_color, stroke_width=stroke_width, stroke_fill=edge_color)
 
 
-def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, font_color, edge_color, buho_n):
+def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, font_color, edge_color, buho_n, mokuji_title):
 
     image = Image.open(src)     #なんかファイル開く
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype(str(font_path),int(font_size*1.5))
+
+    buho_index_size = int(image.size[0]*0.04)
+    font = ImageFont.truetype(str(font_path),int(buho_index_size*1.5))
 
     x, y = image.size
 
-    x = int(x*0.75)
-    y = int(y*0.08)
+    x = int(x*0.95)
+    y = int(y*0.05)
 
-    buho_index = str(buho_n) + "号"
+    buho_index = str(buho_n)
 
-    draw.text((x,y), buho_index, edge_color, font=font)
+    draw.text((x-0.9*buho_index_size*get_east_asian_width(buho_index),y), buho_index, edge_color, font=font)
 
-    draw.rectangle((x-font_size*0.3, y+font_size*0.1, x+0.9*font_size*get_east_asian_width(buho_index), y+font_size*2.2), None, edge_color, int(font_size*0.2))
+    draw.rectangle((x-buho_index_size*get_east_asian_width(buho_index), y+buho_index_size*0.1, x, y+buho_index_size*2.2), None, edge_color, int(buho_index_size*0.2))
 
 
     font = ImageFont.truetype(str(font_path),font_size)
@@ -70,11 +72,15 @@ def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, 
     content_index = len(content_list)   #目次数
 
     for content in content_list:
-        content = str(content_index) + ". " + content
-        content_index -= 1
+        
         if len(content) == 0:
             pass
+        elif content[0] == "%":
+            content_index -= 1
         elif get_east_asian_width(content) >= maxline:
+            content = str(content_index) + ". " + content
+            content_index -= 1
+
             splited_text = split_text(maxline, content)
             splited_text.reverse()
 
@@ -85,10 +91,12 @@ def textincover(src, dest, content_list, font_size, font_path, maxline, rx, ry, 
                 futidori(font_color, edge_color, content, font, font_size, draw, (x,y) )
                 y = y - ( font_size*1.3 )
         else:
+            content = str(content_index) + ". " + content
+            content_index -= 1
             futidori(font_color, edge_color, content, font, font_size, draw, (x,y) )
             y = y - ( font_size*1.3 )
 
-    content = "もくじ"
+    content = mokuji_title
     x = x - font_size
     futidori(font_color, edge_color, content, font, font_size, draw, (x,y) )
 
@@ -120,7 +128,10 @@ if __name__ == '__main__':
     buho_n = 0
 
     print("部報の号数を入力")
-    buho_n = int(input(" > "))
+    buho_n = str(input(" > "))
+
+    print("目次のタイトルを入力")
+    mokuji_title = str(input(" > "))
 
     if args.index.isatty():  # interactive keyboard input
         print("目次を入力（ctrl-dで終了）")
@@ -146,9 +157,11 @@ if __name__ == '__main__':
         print("その出力形式には対応していません(対応形式: png, pdf)")
         exit()
     
-    textincover(args.input, output, content_list, args.s, args.font, maxline, args.x, args.y, args.fontcolor, args.edgecolor, buho_n)
+    textincover(args.input, output, content_list, args.s, args.font, maxline, args.x, args.y, args.fontcolor, args.edgecolor, buho_n, mokuji_title)
 
     if str(args.output.suffix) == ".pdf":
+        page_size = (img2pdf.mm_to_pt(210), img2pdf.mm_to_pt(297))
+        page_size = img2pdf.get_layout_fun(page_size)
         with open(str(output.stem) + ".pdf","wb") as f:
-            f.write(img2pdf.convert([str(output)]))
+            f.write(img2pdf.convert([str(output)], layout_fun = page_size))
         remove(output)
