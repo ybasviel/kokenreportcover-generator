@@ -9,7 +9,18 @@
 
 色指定付き、英数6文字で改行の例
 ```
-./makecover.py < report69 -i report69.png -o report69out.png -s 30 -x 0.1 -y 0.9 -m 6 -f /usr/share/fonts/noto-cjk/NotoSansCJK-Bold.ttc --fontcolor=255,0,0 --edgecolor=0,0,0
+./makecover.py < report69.txt -i report69.png -o report69out.png -s 30 -x 0.1 -y 0.9 -m 6 -f /usr/share/fonts/noto-cjk/NotoSansCJK-Bold.ttc --fontcolor=255,0,0 --edgecolor=0,0,0
+```
+
+目次ファイルの例
+
+%がついているものは省かれ、目次番号は飛ばされる。「もくじ」の部分は変えられる。
+```
+100号
+もくじ(抜粋)
+もくじ1
+%もくじ2
+もくじ3
 ```
 
 ## ./makecover.py --help
